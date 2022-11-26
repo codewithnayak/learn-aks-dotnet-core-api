@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: learnaksapi
+spec:
+  selector:
+    matchLabels:
+      app: learnaksapi
+  template:
+    metadata:
+      labels:
+        app: learnaksapi
+    spec:
+      containers:
+      - name: learnaksapi
+        image: sudnayakvsps.azurecr.io/learnaksapi:4
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+        - name: acr-secret
+      
+
