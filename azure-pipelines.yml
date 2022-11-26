@@ -10,6 +10,11 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
+  dockerRegistryServiceConnection: 'sudnayakvspsacrconnection'
+  imageRepository: 'learnaksapi'
+  containerRegistry: 'sudnayakvsps.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  
 
 stages:
 - stage: Build
@@ -21,9 +26,11 @@ stages:
       vmImage: ubuntu-latest
     steps:
     - task: Docker@2
-      displayName: Build an image
+      displayName: Build and push an image to container registry
       inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
